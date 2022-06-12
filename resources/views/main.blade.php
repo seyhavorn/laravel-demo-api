@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title','main')
 @section('content')
     <div class="container-fluid m-auto">
         <table class="table">
