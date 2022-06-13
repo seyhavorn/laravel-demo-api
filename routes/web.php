@@ -17,5 +17,6 @@ Route::get('/', function () {
     return view('main');
 });
 
-Route::get('student',[StudentController::class,'index'])->name('student.index');
-Route::get('student/create',[StudentController::class,'create'])->name('student.create');
+Route::get('students',[StudentController::class,'index'])->name('students.index');
+Route::get('students/create',[StudentController::class,'create'])->name('students.create');
+Route::post('students/store',[StudentController::class,'store'])->name('students.store');

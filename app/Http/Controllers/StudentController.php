@@ -23,6 +23,7 @@ class StudentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function create()
     {
         return view('students.create');
@@ -36,7 +37,11 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name'=>'required|unique:',
+            'email'=>'required|unique:',
+
+        ]);
     }
 
     /**
@@ -59,6 +64,8 @@ class StudentController extends Controller
     public function edit($id)
     {
         //
+
+
     }
 
     /**

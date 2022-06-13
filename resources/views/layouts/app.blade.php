@@ -7,6 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Laravel | @yield('title')</title>
     <link rel="stylesheet" href="{{asset('assets/css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/css/customize.css')}}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
     @include('layouts.navbar')
