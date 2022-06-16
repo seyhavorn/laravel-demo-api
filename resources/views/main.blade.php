@@ -2,6 +2,7 @@
 @section('title','main')
 @section('content')
     <div class="container-fluid m-auto">
+        <h4 class="text-center text-uppercase text-decoration-underline">Testing list</h4>
         <table class="table">
             <thead>
                 <tr>
