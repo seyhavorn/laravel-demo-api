@@ -6,17 +6,18 @@ use App\Http\Controllers\Controller;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
-class PostController extends Controller
+class PostApiController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Post $post)
     {
         $post = Post::all();
-        return view('posts.index',compact('post'));
+        return response()->json($post);
+//        return view('posts.index', compact('post'));
     }
 
     /**
@@ -37,10 +38,9 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
         request()->validate(['title' => 'required', 'content' => 'required']);
 
-        $success =  Post::create([
+        $success = Post::create([
             'title' => request('title'),
             'content' => request('content'),
         ]);
@@ -68,7 +68,6 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
         request()->validate(['title' => 'required', 'content' => 'required']);
         $success = $post->update([
             'title' => request('title'),
@@ -96,8 +95,11 @@ class PostController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        //
+        $success = $post->delete();
+        return [
+            'success' => $success,
+        ];
     }
 }

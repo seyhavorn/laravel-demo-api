@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Student;
 use Illuminate\Http\Request;
 
 
@@ -14,7 +15,9 @@ class StudentController extends Controller
      */
     public function index(Request $request)
     {
-        return  view('students.index');
+        $student = Student::all();
+        return response()->json($student);
+//        return view('students.index');
     }
 
     /**
@@ -31,22 +34,33 @@ class StudentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name'=>'required|unique:',
-            'email'=>'required|unique:',
-
+        request()->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'age' => 'required',
+            'subject' => 'required',
         ]);
+
+        $success = Student::create([
+            'name' => request('name'),
+            'email' => request('email'),
+            'age' => request('age'),
+            'subject' => request('subject'),
+        ]);
+
+        return ['success' => $success];
+
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -57,12 +71,24 @@ class StudentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Student $student)
     {
-        //
+        request()->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'age' => 'required',
+            'subject' => 'required',
+        ]);
+
+        $success = $student->update([
+            'title' => request('title'),
+            'content' => request('content'),
+        ]);
+
+        return ['success' => $success];
 
 
     }
@@ -70,8 +96,8 @@ class StudentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -82,11 +108,14 @@ class StudentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Student $student)
     {
-        //
+        $success = $student->delete();
+        return [
+            'success' => $success,
+        ];
     }
 }
