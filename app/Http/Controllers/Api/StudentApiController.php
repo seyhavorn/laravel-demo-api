@@ -3,22 +3,21 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Post;
+use App\Models\Student;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
-class PostApiController extends Controller
+class StudentApiController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Post $post)
+    public function index(Request $request)
     {
-        $post = Post::all();
-        return response()->json($post);
-//        return view('posts.index', compact('post'));
+
+        $student = Student::all();
+        return response()->json($student);
     }
 
     /**
@@ -26,9 +25,10 @@ class PostApiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function create()
     {
-        //
+        return view('students.create');
     }
 
     /**
@@ -39,14 +39,21 @@ class PostApiController extends Controller
      */
     public function store(Request $request)
     {
-        request()->validate(['title' => 'required', 'content' => 'required']);
-
-        $success = Post::create([
-            'title' => request('title'),
-            'content' => request('content'),
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'age' => 'required',
+            'subject' => 'required',
         ]);
 
-        return ['success' => $success];
+        $success = Student::create([
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'age' => $request['age'],
+            'subject' => $request['subject'],
+        ]);
+
+        return ['$success' => $success];
 
     }
 
@@ -58,7 +65,7 @@ class PostApiController extends Controller
      */
     public function show($id)
     {
-
+        //
     }
 
     /**
@@ -67,15 +74,10 @@ class PostApiController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Post $post)
+    public function edit(Student $student)
     {
-        request()->validate(['title' => 'required', 'content' => 'required']);
-        $success = $post->update([
-            'title' => request('title'),
-            'content' => request('content'),
-        ]);
 
-        return ['success' => $success];
+
     }
 
     /**
@@ -85,9 +87,23 @@ class PostApiController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Student $student)
     {
-        //
+        request()->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'age' => 'required',
+            'subject' => 'required',
+        ]);
+
+        $success = $student->update([
+            'name' => request('name'),
+            'email' => request('email'),
+            'age' => request('age'),
+            'subject' => request('subject'),
+        ]);
+
+        return ['success' => $success];
     }
 
     /**
@@ -96,11 +112,13 @@ class PostApiController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function destroy(Student $student)
     {
-        $success = $post->delete();
+        $success = $student->delete();
+
         return [
             'success' => $success,
+            'message' => 'Student has been deleted'
         ];
     }
 }

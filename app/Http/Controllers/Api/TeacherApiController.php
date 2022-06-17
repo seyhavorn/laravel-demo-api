@@ -6,17 +6,17 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Teacher;
 
-class TeacherController extends Controller
+class TeacherApiController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Teacher $teacher)
     {
-        $data = 'hello';
-        return response()->json($data);
+        $teacher = Teacher::get();
+        return response()->json($teacher);
     }
 
     /**
@@ -37,7 +37,13 @@ class TeacherController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate(['name' => 'required|string', 'sex' => 'required|string', 'level' => 'required']);
+        $success = Teacher::create([
+            'name' => $request['name'],
+            'sex' => $request['sex'],
+            'level' => $request['level'],
+        ]);
+        return ['success' => $success];
     }
 
     /**
@@ -69,9 +75,16 @@ class TeacherController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Teacher $teacher)
     {
-        //
+
+        $success = $teacher->update([
+            'name' => request('name'),
+            'sex' => request('sex'),
+            'level' => request('level'),
+        ]);
+
+        return ['$success' => $success];
     }
 
     /**

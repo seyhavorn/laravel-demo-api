@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 
 class StudentController extends Controller
@@ -15,9 +16,9 @@ class StudentController extends Controller
      */
     public function index(Request $request)
     {
+
         $student = Student::all();
-        return response()->json($student);
-//        return view('students.index');
+        return view('students.index', compact('student'));
     }
 
     /**
@@ -39,7 +40,7 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        request()->validate([
+        $request->validate([
             'name' => 'required',
             'email' => 'required',
             'age' => 'required',
@@ -47,13 +48,14 @@ class StudentController extends Controller
         ]);
 
         $success = Student::create([
-            'name' => request('name'),
-            'email' => request('email'),
-            'age' => request('age'),
-            'subject' => request('subject'),
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'age' => $request['age'],
+            'subject' => $request['subject'],
         ]);
 
-        return ['success' => $success];
+        return ['$success' => $success];
+//        return redirect('/')->with('message', 'Student has been save');
 
     }
 

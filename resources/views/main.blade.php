@@ -2,23 +2,17 @@
 @section('title','main')
 @section('content')
     <div class="container-fluid m-auto">
-        <h4 class="text-center text-uppercase text-decoration-underline">Testing list</h4>
-        <table class="table">
-            <thead>
-                <tr>
-                    <td>Name</td>
-                    <td>User</td>
-                    <td>Phone Number</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Seyha</td>
-                    <td>Vorn</td>
-                    <td>098 777 23323</td>
-                </tr>
-            </tbody>
-        </table>
+        <h1 class="tw-text-dark tw-font-bold tw-text-xl">Home Page</h1>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum eius eligendi fugiat laudantium maxime odio?
+            Ab ex ipsa laborum molestias omnis! Assumenda aut debitis eligendi, id minima pariatur ullam voluptates.
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum eius eligendi fugiat laudantium maxime odio?
+            Ab ex ipsa laborum molestias omnis! Assumenda aut debitis eligendi, id minima pariatur ullam voluptates.
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum eius eligendi fugiat laudantium maxime odio?
+            Ab ex ipsa laborum molestias omnis! Assumenda aut debitis eligendi, id minima pariatur ullam voluptates.
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum eius eligendi fugiat laudantium maxime odio?
+            Ab ex ipsa laborum molestias omnis! Assumenda aut debitis eligendi, id minima pariatur ullam voluptates.
+        </p>
     </div>
 @endsection
 @push('scripts')
