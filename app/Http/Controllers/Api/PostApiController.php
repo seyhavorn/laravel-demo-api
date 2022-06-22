@@ -4,9 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Post;
-use http\Exception\BadConversionException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class PostApiController extends Controller
 {
@@ -18,7 +16,7 @@ class PostApiController extends Controller
     public function index(Post $posts)
     {
         $posts = Post::all();
-        return view('posts.index', compact('posts'));
+        return response()->json($posts);
     }
 
     /**
@@ -39,13 +37,15 @@ class PostApiController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate(['title'   => 'required|string',
-                            'slug'    => 'required|string',
-                            'like'    => 'required|integer',
-                            'content' => 'required']);
+        $request->validate([
+            'title'   => 'required',
+            'slug'    => 'required',
+            'like'    => 'required',
+            'content' => 'required',
+        ]);
         $post = Post::create($request->all());
-
-        return back()->with(['message' => 'Post has been created']);
+        return $post;
+//        return back()->with('message', 'Post has been created');
 
     }
 

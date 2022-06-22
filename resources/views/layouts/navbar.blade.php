@@ -63,12 +63,12 @@
                     $routeName = Route::currentRouteName();
                 @endphp
                 <li>
-                    <a href="{{route('posts.index')}}"
+                    <a href="{{route('post.index')}}"
                        class="tw-block tw-py-2 tw-pr-4 tw-pl-3 tw-text-white tw-border-b tw-border-gray-100 hover:tw-bg-gray-50 md:hover:tw-bg-transparent md:tw-border-0 md:hover:tw-text-blue-700 md:tw-p-0 md:dark:hover:tw-text-white dark:tw-text-gray-400 dark:hover:tw-bg-gray-700 dark:hover:tw-text-white md:dark:hover:tw-bg-transparent dark:tw-border-gray-700 {{ $routeName == 'posts.index' ? 'active:tw-bg-blue-300 ' : '' }}"
                     >Post</a>
                 </li>
                 <li>
-                    <a href="{{route('posts.create')}}"
+                    <a href="{{route('post.create')}}"
                        class="tw-block tw-py-2 tw-pr-4 tw-pl-3 tw-text-white tw-border-b tw-border-gray-100 hover:tw-bg-gray-50 md:hover:tw-bg-transparent md:tw-border-0 md:hover:tw-text-blue-700 md:tw-p-0 md:dark:hover:tw-text-white dark:tw-text-gray-400 dark:hover:tw-bg-gray-700 dark:hover:tw-text-white md:dark:hover:tw-bg-transparent dark:tw-border-gray-700 {{ $routeName == 'posts.create' ? 'active:tw-bg-blue-300 ' : '' }}"
                     >New Post</a>
                 </li>
