@@ -21,20 +21,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-//POST API:
-Route::get('posts', [PostApiController::class, 'index'])->name('posts-api.index');
-Route::post('posts', [PostApiController::class, 'store'])->name('posts-api.store');
-Route::put('posts/{post}', [PostApiController::class, 'edit'])->name('posts-api.edit');
-Route::delete('posts/{post}', [PostApiController::class, 'destroy'])->name('posts-api.destroy');
+Route::resource('posts', PostApiController::class);
+Route::resource('teachers', TeacherApiController::class);
+Route::resource('students', StudentApiController::class);
 
-//Teacher API:
-Route::get('teachers', [TeacherApiController::class, 'index'])->name('teachers-api.index');
-Route::post('teachers', [TeacherApiController::class, 'store'])->name('teachers-api.store');
-Route::put('teachers/{teacher}', [TeacherApiController::class, 'update'])->name('teachers-api.update');
-
-//Student API:
-Route::get('students', [StudentApiController::class, 'index'])->name('students-api.index');
-Route::post('students', [StudentApiController::class, 'store'])->name('students-api.store');
-Route::put('students/{student}', [StudentApiController::class, 'update'])->name('student-api.update');
-Route::delete('students/{student}', [StudentApiController::class, 'destroy'])->name('student-api.destroy');
 

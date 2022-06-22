@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Student;
+use Illuminate\Console\Scheduling\ScheduleRunCommand;
 use Illuminate\Http\Request;
 
 class StudentApiController extends Controller
@@ -40,19 +41,19 @@ class StudentApiController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'email' => 'required',
-            'age' => 'required',
+            'name'    => 'required',
+            'email'   => 'required',
+            'age'     => 'required',
             'subject' => 'required',
         ]);
 
-        $success = Student::create([
-            'name' => $request['name'],
-            'email' => $request['email'],
-            'age' => $request['age'],
-            'subject' => $request['subject'],
-        ]);
-
+//        $success = Student::create([
+//            'name' => $request['name'],
+//            'email' => $request['email'],
+//            'age' => $request['age'],
+//            'subject' => $request['subject'],
+//        ]);
+        $success = Student::create($request->all());
         return ['$success' => $success];
 
     }
@@ -87,22 +88,24 @@ class StudentApiController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Student $student)
+    public function update(Request $request, $id)
     {
         request()->validate([
-            'name' => 'required',
-            'email' => 'required',
-            'age' => 'required',
+            'name'    => 'required',
+            'email'   => 'required',
+            'age'     => 'required',
             'subject' => 'required',
         ]);
 
-        $success = $student->update([
-            'name' => request('name'),
-            'email' => request('email'),
-            'age' => request('age'),
-            'subject' => request('subject'),
-        ]);
+//        $success = $student->update([
+//            'name'    => request('name'),
+//            'email'   => request('email'),
+//            'age'     => request('age'),
+//            'subject' => request('subject'),
+//        ]);
 
+        $student = Student::find($id);
+        $success = $student->update($request->all());
         return ['success' => $success];
     }
 
@@ -118,7 +121,7 @@ class StudentApiController extends Controller
 
         return [
             'success' => $success,
-            'message' => 'Student has been deleted'
+            'message' => 'Student has been deleted',
         ];
     }
 }

@@ -10,8 +10,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
+
 <div class="">
     @include('layouts.navbar')
+</div>
+<div class="container">
+    @if(session('message'))
+        <div
+            class="tw-p-4 tw-mb-4 tw-text-sm tw-text-blue-700 tw-bg-blue-100 tw-rounded-lg dark:tw-bg-blue-200 dark:tw-text-blue-800"
+            role="alert">
+            <span class="tw-font-medium">Info alert!</span> {{session('message')}}
+        </div>
+    @endif
 </div>
 
 <div class="tw-container tw-m-auto">

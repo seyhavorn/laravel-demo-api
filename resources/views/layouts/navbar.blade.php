@@ -63,24 +63,15 @@
                     $routeName = Route::currentRouteName();
                 @endphp
                 <li>
-                    <a href="{{route('students.index')}}"
-                       class="{{ $routeName == 'students.index' ? 'active' : null }} tw-block tw-py-2 tw-pr-4 tw-pl-3 tw-text-white tw-bg-blue-700 tw-rounded md:tw-bg-transparent md:tw-text-blue-700 md:tw-p-0 dark:tw-text-white"
-                       aria-current="page">Student</a>
+                    <a href="{{route('posts.index')}}"
+                       class="tw-block tw-py-2 tw-pr-4 tw-pl-3 tw-text-white tw-border-b tw-border-gray-100 hover:tw-bg-gray-50 md:hover:tw-bg-transparent md:tw-border-0 md:hover:tw-text-blue-700 md:tw-p-0 md:dark:hover:tw-text-white dark:tw-text-gray-400 dark:hover:tw-bg-gray-700 dark:hover:tw-text-white md:dark:hover:tw-bg-transparent dark:tw-border-gray-700 {{ $routeName == 'posts.index' ? 'active:tw-bg-blue-300 ' : '' }}"
+                    >Post</a>
                 </li>
                 <li>
-                    <a href="{{route('students-create')}}"
-                       class="{{ $routeName == 'students-create' ? 'active' : null }} tw-block tw-py-2 tw-pr-4 tw-pl-3 tw-text-gray-700 tw-border-b tw-border-gray-100 hover:tw-bg-gray-50 md:hover:tw-bg-transparent md:tw-border-0 md:hover:tw-text-blue-700 md:tw-p-0 md:dark:hover:tw-text-white dark:tw-text-gray-400 dark:hover:tw-bg-gray-700 dark:hover:tw-text-white md:dark:hover:tw-bg-transparent dark:tw-border-gray-700">Create</a>
+                    <a href="{{route('posts.create')}}"
+                       class="tw-block tw-py-2 tw-pr-4 tw-pl-3 tw-text-white tw-border-b tw-border-gray-100 hover:tw-bg-gray-50 md:hover:tw-bg-transparent md:tw-border-0 md:hover:tw-text-blue-700 md:tw-p-0 md:dark:hover:tw-text-white dark:tw-text-gray-400 dark:hover:tw-bg-gray-700 dark:hover:tw-text-white md:dark:hover:tw-bg-transparent dark:tw-border-gray-700 {{ $routeName == 'posts.create' ? 'active:tw-bg-blue-300 ' : '' }}"
+                    >New Post</a>
                 </li>
-                <li>
-
-                    <a href="#"
-                       class="{{ $routeName == '' ? 'active' : null }} tw-block tw-py-2 tw-pr-4 tw-pl-3 tw-text-gray-700 tw-border-b tw-border-gray-100 hover:tw-bg-gray-50 md:hover:tw-bg-transparent md:tw-border-0 md:hover:tw-text-blue-700 md:tw-p-0 md:dark:hover:tw-text-white dark:tw-text-gray-400 dark:hover:tw-bg-gray-700 dark:hover:tw-text-white md:dark:hover:tw-bg-transparent dark:tw-border-gray-700">Phone</a>
-                </li>
-                <li>
-                    <a href="#"
-                       class="{{ $routeName == '' ? 'active' : null }} tw-block tw-py-2 tw-pr-4 tw-pl-3 tw-text-gray-700 tw-border-b tw-border-gray-100 hover:tw-bg-gray-50 md:hover:tw-bg-transparent md:tw-border-0 md:hover:tw-text-blue-700 md:tw-p-0 md:dark:hover:tw-text-white dark:tw-text-gray-400 dark:hover:tw-bg-gray-700 dark:hover:tw-text-white md:dark:hover:tw-bg-transparent dark:tw-border-gray-700">Contact</a>
-                </li>
-
             </ul>
         </div>
     </div>

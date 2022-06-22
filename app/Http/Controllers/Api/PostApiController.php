@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Post;
+use http\Exception\BadConversionException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -14,11 +15,10 @@ class PostApiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Post $post)
+    public function index(Post $posts)
     {
-        $post = Post::all();
-        return response()->json($post);
-//        return view('posts.index', compact('post'));
+        $posts = Post::all();
+        return view('posts.index', compact('posts'));
     }
 
     /**
@@ -28,7 +28,7 @@ class PostApiController extends Controller
      */
     public function create()
     {
-        //
+        return view('posts.create');
     }
 
     /**
@@ -39,14 +39,13 @@ class PostApiController extends Controller
      */
     public function store(Request $request)
     {
-        request()->validate(['title' => 'required', 'content' => 'required']);
+        $request->validate(['title'   => 'required|string',
+                            'slug'    => 'required|string',
+                            'like'    => 'required|integer',
+                            'content' => 'required']);
+        $post = Post::create($request->all());
 
-        $success = Post::create([
-            'title' => request('title'),
-            'content' => request('content'),
-        ]);
-
-        return ['success' => $success];
+        return back()->with(['message' => 'Post has been created']);
 
     }
 
@@ -58,7 +57,7 @@ class PostApiController extends Controller
      */
     public function show($id)
     {
-
+        return Post::find($id);
     }
 
     /**
@@ -69,13 +68,7 @@ class PostApiController extends Controller
      */
     public function edit(Post $post)
     {
-        request()->validate(['title' => 'required', 'content' => 'required']);
-        $success = $post->update([
-            'title' => request('title'),
-            'content' => request('content'),
-        ]);
 
-        return ['success' => $success];
     }
 
     /**
@@ -87,7 +80,16 @@ class PostApiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate(['title'   => 'required|string',
+                            'slug'    => 'required|string',
+                            'like'    => 'required',
+                            'content' => 'nullable',
+
+        ]);
+        $post = Post::find($id);
+        $post->update($request->all());
+
+        return $post;
     }
 
     /**
@@ -96,11 +98,13 @@ class PostApiController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function destroy($id)
     {
-        $success = $post->delete();
+        $success = Post::destroy($id);
+
         return [
             'success' => $success,
+            'status'  => 'Post has been delete',
         ];
     }
 }

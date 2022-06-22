@@ -77,7 +77,6 @@ class TeacherApiController extends Controller
      */
     public function update(Teacher $teacher)
     {
-
         $success = $teacher->update([
             'name' => request('name'),
             'sex' => request('sex'),
