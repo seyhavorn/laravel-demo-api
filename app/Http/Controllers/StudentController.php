@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 
 class StudentController extends Controller
@@ -16,9 +17,14 @@ class StudentController extends Controller
      */
     public function index(Request $request)
     {
+        $myString = "The quick brow for jumps over the lazy dog. This dog from PP.";
+        $lowercase = Str::upper($myString);
+        $truncated = Str::limit($lowercase, 25);
+
+//        dd($truncated);
 
         $student = Student::all();
-        return view('students.index', compact('student'));
+        return view('students.index', compact('student','truncated'));
     }
 
     /**
@@ -41,16 +47,16 @@ class StudentController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'email' => 'required',
-            'age' => 'required',
+            'name'    => 'required',
+            'email'   => 'required',
+            'age'     => 'required',
             'subject' => 'required',
         ]);
 
         $success = Student::create([
-            'name' => $request['name'],
-            'email' => $request['email'],
-            'age' => $request['age'],
+            'name'    => $request['name'],
+            'email'   => $request['email'],
+            'age'     => $request['age'],
             'subject' => $request['subject'],
         ]);
 
@@ -76,17 +82,18 @@ class StudentController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
+
     public function edit(Student $student)
     {
         request()->validate([
-            'name' => 'required',
-            'email' => 'required',
-            'age' => 'required',
+            'name'    => 'required',
+            'email'   => 'required',
+            'age'     => 'required',
             'subject' => 'required',
         ]);
 
         $success = $student->update([
-            'title' => request('title'),
+            'title'   => request('title'),
             'content' => request('content'),
         ]);
 

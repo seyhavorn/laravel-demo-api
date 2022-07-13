@@ -43,6 +43,8 @@
             @endforeach
             </tbody>
         </table>
+
+        <h2>{{$truncated}}</h2>
     </div>
 
     {{--    Pop Up Model--}}

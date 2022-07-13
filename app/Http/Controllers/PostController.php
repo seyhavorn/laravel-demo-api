@@ -79,8 +79,9 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $post = Post::find($id);
         $post = Post::update($request->all());
-//        return view('');
+        return view('posts.edit', compact('post'));
     }
 
     /**

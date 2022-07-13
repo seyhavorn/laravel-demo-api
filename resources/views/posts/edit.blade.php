@@ -3,7 +3,7 @@
 @section('content')
     <div class="tw-container tw-w-6/12 tw-m-auto tw-mt-6">
         <h2 class="tw-mb-6">New Post</h2>
-        <form action="" method="Post">
+        <form action="{{route('post.update',$post->id)}}" method="UPDATE">
             @csrf
             <div class="tw-relative tw-z-0 tw-w-full tw-mb-6 tw-group">
                 <input type="text" name="title" value="{{$post->title}}"
