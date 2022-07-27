@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\PostApiController;
+use App\Http\Controllers\Api\ProductApiController;
 use App\Http\Controllers\Api\StudentApiController;
 use App\Http\Controllers\Api\TeacherApiController;
 use Illuminate\Http\Request;
@@ -18,11 +19,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+	return $request->user();
 });
 
 Route::resource('posts', PostApiController::class);
 Route::resource('teachers', TeacherApiController::class);
 Route::resource('students', StudentApiController::class);
+Route::resource('products', ProductApiController::class);
 
 

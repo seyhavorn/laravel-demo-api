@@ -37,9 +37,9 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title'   => 'required',
-            'slug'    => 'required',
-            'like'    => 'required',
+            'title' => 'required',
+            'slug' => 'required',
+            'like' => 'required',
             'content' => 'required',
         ]);
 
@@ -81,7 +81,8 @@ class PostController extends Controller
     {
         $post = Post::find($id);
         $post = Post::update($request->all());
-        return view('posts.edit', compact('post'));
+        return back();
+//        return view('posts.index', compact('post'));
     }
 
     /**

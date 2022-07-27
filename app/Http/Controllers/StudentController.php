@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use function PHPUnit\Framework\returnArgument;
 
 
 class StudentController extends Controller
@@ -24,7 +24,7 @@ class StudentController extends Controller
 //        dd($truncated);
 
         $student = Student::all();
-        return view('students.index', compact('student','truncated'));
+        return view('students.index', compact('student', 'truncated'));
     }
 
     /**
@@ -106,7 +106,7 @@ class StudentController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param int $id
+     * @param int                      $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -123,6 +123,7 @@ class StudentController extends Controller
     public function destroy(Student $student)
     {
         $success = $student->delete();
+
         return [
             'success' => $success,
         ];
