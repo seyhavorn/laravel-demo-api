@@ -4,15 +4,15 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Student;
-use Illuminate\Console\Scheduling\ScheduleRunCommand;
 use Illuminate\Http\Request;
+
 
 class StudentApiController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
@@ -36,7 +36,7 @@ class StudentApiController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return array
      */
     public function store(Request $request)
     {
@@ -47,12 +47,6 @@ class StudentApiController extends Controller
             'subject' => 'required',
         ]);
 
-//        $success = Student::create([
-//            'name' => $request['name'],
-//            'email' => $request['email'],
-//            'age' => $request['age'],
-//            'subject' => $request['subject'],
-//        ]);
         $success = Student::create($request->all());
         return ['$success' => $success];
 
@@ -86,7 +80,7 @@ class StudentApiController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return array
      */
     public function update(Request $request, $id)
     {
@@ -97,13 +91,6 @@ class StudentApiController extends Controller
             'subject' => 'required',
         ]);
 
-//        $success = $student->update([
-//            'name'    => request('name'),
-//            'email'   => request('email'),
-//            'age'     => request('age'),
-//            'subject' => request('subject'),
-//        ]);
-
         $student = Student::find($id);
         $success = $student->update($request->all());
         return ['success' => $success];
@@ -113,7 +100,7 @@ class StudentApiController extends Controller
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return array
      */
     public function destroy(Student $student)
     {

@@ -5,9 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+
 class Student extends Model
 {
     use HasFactory;
-    protected $fillable = ['name','email','age','subject'];
+
+    protected $table = 'students';
+
+    protected $fillable = ['name', 'email', 'age', 'subject'];
 }
 

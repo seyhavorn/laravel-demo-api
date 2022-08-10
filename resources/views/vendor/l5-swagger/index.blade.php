@@ -24,6 +24,11 @@
       margin:0;
       background: #fafafa;
     }
+    .content-center{
+        display: flex;
+        justify-content: center;
+        align-content: center;
+    }
     </style>
 </head>
 

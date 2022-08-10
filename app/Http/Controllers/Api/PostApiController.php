@@ -7,12 +7,20 @@ use App\Models\Post;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use LaravelIdea\Helper\App\Models\_IH_Post_C;
 
 class PostApiController extends Controller
 {
+    protected Post $post;
+
+    public function __construct(Post $post)
+    {
+        $this->post = $post;
+    }
+
     /**
      * Get List Posts
      * @OA\Get (
@@ -22,55 +30,20 @@ class PostApiController extends Controller
      *         response=200,
      *         description="success",
      *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 type="array",
-     *                 property="rows",
-     *                 @OA\Items(
-     *                     type="object",
-     *                     @OA\Property(
-     *                         property="id",
-     *                         type="number",
-     *                         example="1"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="title",
-     *                         type="string",
-     *                         example="example title"
-     *                     ),
-     *                      @OA\Property(
-     *                      property="slug",
-     *                      type="string",
-     *                      example="slug1",
-     *                      ),
-     *                      @OA\Property(
-     *                      property="like",
-     *                      type="int",
-     *                      example="12",
-     *                      ),
-     *                     @OA\Property(
-     *                         property="content",
-     *                         type="string",
-     *                         example="example content"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="updated_at",
-     *                         type="string",
-     *                         example="2021-12-11T09:25:53.000000Z"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="created_at",
-     *                         type="string",
-     *                         example="2021-12-11T09:25:53.000000Z"
-     *                     )
-     *                 )
-     *             )
+     *              @OA\Property(property="id",type="number",example="1"),
+     *               @OA\Property(property="title", type="string", example="example title"),
+     *               @OA\Property(property="slug", type="string", example="slug1",),
+     *               @OA\Property(property="like", type="int", example="12", ),
+     *               @OA\Property(property="content", type="string", example="example content"),
+     *               @OA\Property(property="updated_at", type="string", example="2021-12-11T09:25:53.000000Z"),
+     *               @OA\Property( property="created_at", type="string", example="2021-12-11T09:25:53.000000Z")
      *         )
      *     )
      * )
      */
     public function index(Post $posts)
     {
-        $posts = Post::all();
+        $posts = $this->post->getPost();
         return response()->json($posts);
     }
 
@@ -93,30 +66,49 @@ class PostApiController extends Controller
      */
 
     /**
-     * @OA\Post(
-     *      path="/api/v1/posts",
-     *      operationId="storePosts",
-     *      tags={"Posts"},
-     *      summary="Store new posts",
-     *      description="Returns posts data",
-     *      @OA\RequestBody(
-     *          required=true,
+     * Create Posts
+     * @OA\Post (
+     *     path="/api/v1/posts",
+     *     tags={"Posts"},
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                      type="object",
+     *                      @OA\Property(property="title", type="string"),
+     *                      @OA\Property(property="slug", type="string"),
+     *                      @OA\Property(property="like", type="int"),
+     *                      @OA\Property(property="content",type="string")
+     *                 ),
+     *                 example={
+     *                     "title":" ",
+     *                     "slug": "",
+     *                     "like": "",
+     *                     "content":""
+     *                }
+     *             )
+     *         )
      *      ),
      *      @OA\Response(
-     *          response=201,
-     *          description="Successful operation",
-     *       ),
+     *          response=200,
+     *          description="success",
+     *          @OA\JsonContent(
+     *               @OA\Property(property="id", type="number",example="1"),
+     *               @OA\Property(property="title", type="string", example="example title"),
+     *               @OA\Property(property="slug", type="string", example="slug1",),
+     *               @OA\Property(property="like", type="int", example="12", ),
+     *               @OA\Property(property="content", type="string", example="example content"),
+     *               @OA\Property(property="updated_at", type="string", example="2021-12-11T09:25:53.000000Z"),
+     *               @OA\Property( property="created_at", type="string", example="2021-12-11T09:25:53.000000Z")
+     *          ),
+     *      ),
      *      @OA\Response(
      *          response=400,
-     *          description="Bad Request"
-     *      ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Unauthenticated",
-     *      ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
+     *          description="invalid",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="msg", type="string", example="fail"),
+     *          )
      *      )
      * )
      */
@@ -129,9 +121,13 @@ class PostApiController extends Controller
             'like'    => 'required',
             'content' => 'required',
         ]);
-        $post = Post::create($request->all());
-        return $post;
-//        return back()->with('message', 'Post has been created');
+
+        try {
+            $post = $this->post->createPost($request->all());
+            return response()->json($post);
+        } catch (ModelNotFoundException $exception) {
+            return response()->json(["message" => $exception->getMessage()], 404);
+        }
 
     }
 
@@ -141,9 +137,41 @@ class PostApiController extends Controller
      * @param int $id
      * @return _IH_Post_C|Post|Post[]
      */
+
+    /**
+     * Get Detail Posts
+     * @OA\Get (
+     *     path="/api/v1/posts/{id}",
+     *     tags={"Posts"},
+     *     @OA\Parameter(
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="success",
+     *         @OA\JsonContent(
+     *               @OA\Property(property="id", type="number",example="1"),
+     *               @OA\Property(property="title", type="string", example="example title"),
+     *               @OA\Property(property="slug", type="string", example="slug1",),
+     *               @OA\Property(property="like", type="int", example="12", ),
+     *               @OA\Property(property="content", type="string", example="example content"),
+     *               @OA\Property(property="updated_at", type="string", example="2021-12-11T09:25:53.000000Z"),
+     *               @OA\Property( property="created_at", type="string", example="2021-12-11T09:25:53.000000Z")
+     *         )
+     *     )
+     * )
+     */
+
     public function show($id)
     {
-        return Post::find($id);
+        $post = $this->post->getPostBy($id);
+        if ($post !== null) {
+            return response()->json($post);
+        }
+        return response()->json(["message" => "Post " . $id . " is not found!"]);
     }
 
     /**
@@ -161,6 +189,53 @@ class PostApiController extends Controller
      * @param int     $id
      * @return _IH_Post_C|Post|Post[]
      */
+
+    /**
+     * Update Posts
+     * @OA\Put (
+     *     path="/api/v1/posts/{id}",
+     *     tags={"Posts"},
+     *     @OA\Parameter(
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                      type="object",
+     *                      @OA\Property(property="title", type="string"),
+     *                      @OA\Property(property="slug", type="string"),
+     *                      @OA\Property(property="like", type="int"),
+     *                      @OA\Property(property="content",type="string")
+     *                 ),
+     *                 example={
+     *                     "title":" ",
+     *                     "slug": " ",
+     *                     "like": " ",
+     *                     "content":" "
+     *                }
+     *             )
+     *         )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="success",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="id", type="number",example="1"),
+     *               @OA\Property(property="title", type="string", example="example title"),
+     *               @OA\Property(property="slug", type="string", example="slug1",),
+     *               @OA\Property(property="like", type="int", example="12", ),
+     *               @OA\Property(property="content", type="string", example="example content"),
+     *               @OA\Property(property="updated_at", type="string", example="2021-12-11T09:25:53.000000Z"),
+     *               @OA\Property( property="created_at", type="string", example="2021-12-11T09:25:53.000000Z")
+     *          )
+     *      )
+     * )
+     */
     public function update(Request $request, $id)
     {
         $request->validate(['title'   => 'required|string',
@@ -169,10 +244,12 @@ class PostApiController extends Controller
                             'content' => 'nullable',
 
         ]);
-        $post = Post::find($id);
-        $post->update($request->all());
-
-        return $post;
+        try {
+            $post = $this->post->updatePost($id, $request->all());
+            return response()->json($post);
+        } catch (ModelNotFoundException $exception) {
+            return response()->json(["message" => $exception->getMessage()], 404);
+        }
     }
 
     /**
@@ -181,13 +258,35 @@ class PostApiController extends Controller
      * @param int $id
      * @return array
      */
+
+    /**
+     * Delete Posts
+     * @OA\Delete (
+     *     path="/api/v1/posts/{id}",
+     *     tags={"Posts"},
+     *     @OA\Parameter(
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="success",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="msg", type="string", example="delete posts success")
+     *         )
+     *     )
+     * )
+     */
+
     public function destroy($id)
     {
-        $success = Post::destroy($id);
-
-        return [
-            'success' => $success,
-            'status'  => 'Post has been delete',
-        ];
+        try {
+            $post = $this->post->deletePost($id);
+            return response()->json(['message' => " Post " . $id . " has benn deleted"]);
+        } catch (ModelNotFoundException $exception) {
+            return response()->json(["message" => $exception->getMessage()], 404);
+        }
     }
 }

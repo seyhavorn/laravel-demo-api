@@ -2,22 +2,8 @@
     "openapi": "3.0.0",
     "info": {
         "title": "Laravel Master api Documentation",
-        "description": "laravel master api documentation.",
-        "contact": {
-            "email": "admin@admin.com"
-        },
-        "license": {
-            "name": "Apache 2.0",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-        },
         "version": "1.0.0"
     },
-    "servers": [
-        {
-            "url": "http://laravel-master.test",
-            "description": "Demo API Server"
-        }
-    ],
     "paths": {
         "/api/v1/posts": {
             "get": {
@@ -33,41 +19,33 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "rows": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "_id": {
-                                                        "type": "number",
-                                                        "example": "1"
-                                                    },
-                                                    "title": {
-                                                        "type": "string",
-                                                        "example": "example title"
-                                                    },
-                                                    "slug": {
-                                                        "type": "string",
-                                                        "example": "slug1"
-                                                    },
-                                                    "like": {
-                                                        "type": "integer",
-                                                        "example": "12"
-                                                    },
-                                                    "content": {
-                                                        "type": "string",
-                                                        "example": "example content"
-                                                    },
-                                                    "updated_at": {
-                                                        "type": "string",
-                                                        "example": "2021-12-11T09:25:53.000000Z"
-                                                    },
-                                                    "created_at": {
-                                                        "type": "string",
-                                                        "example": "2021-12-11T09:25:53.000000Z"
-                                                    }
-                                                },
-                                                "type": "object"
-                                            }
+                                        "id": {
+                                            "type": "number",
+                                            "example": "1"
+                                        },
+                                        "title": {
+                                            "type": "string",
+                                            "example": "example title"
+                                        },
+                                        "slug": {
+                                            "type": "string",
+                                            "example": "slug1"
+                                        },
+                                        "like": {
+                                            "type": "integer",
+                                            "example": "12"
+                                        },
+                                        "content": {
+                                            "type": "string",
+                                            "example": "example content"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "example": "2021-12-11T09:25:53.000000Z"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "example": "2021-12-11T09:25:53.000000Z"
                                         }
                                     },
                                     "type": "object"
@@ -81,24 +59,602 @@
                 "tags": [
                     "Posts"
                 ],
-                "summary": "Store new posts",
-                "description": "Returns posts data",
-                "operationId": "storePosts",
+                "summary": "Create Posts",
+                "operationId": "65375e03d74981ebc47a9042a8187781",
                 "requestBody": {
-                    "required": true
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "": {
+                                        "properties": {
+                                            "title": {
+                                                "type": "string"
+                                            },
+                                            "slug": {
+                                                "type": "string"
+                                            },
+                                            "like": {
+                                                "type": "integer"
+                                            },
+                                            "content": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "title": " ",
+                                    "slug": "",
+                                    "like": "",
+                                    "content": ""
+                                }
+                            }
+                        }
+                    }
                 },
                 "responses": {
-                    "201": {
-                        "description": "Successful operation"
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "number",
+                                            "example": "1"
+                                        },
+                                        "title": {
+                                            "type": "string",
+                                            "example": "example title"
+                                        },
+                                        "slug": {
+                                            "type": "string",
+                                            "example": "slug1"
+                                        },
+                                        "like": {
+                                            "type": "integer",
+                                            "example": "12"
+                                        },
+                                        "content": {
+                                            "type": "string",
+                                            "example": "example content"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "example": "2021-12-11T09:25:53.000000Z"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "example": "2021-12-11T09:25:53.000000Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
                     "400": {
-                        "description": "Bad Request"
+                        "description": "invalid",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/posts/{id}": {
+            "get": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Get Detail Posts",
+                "operationId": "8b30ec9f88b72cda8a2a74c2231930ab",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "number",
+                                            "example": "1"
+                                        },
+                                        "title": {
+                                            "type": "string",
+                                            "example": "example title"
+                                        },
+                                        "slug": {
+                                            "type": "string",
+                                            "example": "slug1"
+                                        },
+                                        "like": {
+                                            "type": "integer",
+                                            "example": "12"
+                                        },
+                                        "content": {
+                                            "type": "string",
+                                            "example": "example content"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "example": "2021-12-11T09:25:53.000000Z"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "example": "2021-12-11T09:25:53.000000Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Update Posts",
+                "operationId": "cd0e99d3a8ca45fef56c5b78ce2d0649",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "": {
+                                        "properties": {
+                                            "title": {
+                                                "type": "string"
+                                            },
+                                            "slug": {
+                                                "type": "string"
+                                            },
+                                            "like": {
+                                                "type": "integer"
+                                            },
+                                            "content": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "title": " ",
+                                    "slug": " ",
+                                    "like": " ",
+                                    "content": " "
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "number",
+                                            "example": "1"
+                                        },
+                                        "title": {
+                                            "type": "string",
+                                            "example": "example title"
+                                        },
+                                        "slug": {
+                                            "type": "string",
+                                            "example": "slug1"
+                                        },
+                                        "like": {
+                                            "type": "integer",
+                                            "example": "12"
+                                        },
+                                        "content": {
+                                            "type": "string",
+                                            "example": "example content"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "example": "2021-12-11T09:25:53.000000Z"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "example": "2021-12-11T09:25:53.000000Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Delete Posts",
+                "operationId": "28cb89d87f11e5e1977441866a028c9d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "delete posts success"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/products": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get List Products",
+                "operationId": "8c7d00fe13a8e661ad5a967dedf826bd",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "number",
+                                            "example": "1"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "bags"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "this bag for"
+                                        },
+                                        "price": {
+                                            "type": "integer",
+                                            "example": "99"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "example": "2021-12-11T09:25:53.000000Z"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "example": "2021-12-11T09:25:53.000000Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Create Products",
+                "operationId": "15899357c519f76d16796e983cf56735",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "": {
+                                        "properties": {
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            },
+                                            "price": {
+                                                "type": "integer"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "name": "bag",
+                                    "description": "for bag",
+                                    "price": "99"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "number",
+                                            "example": "1"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "bags"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "this bag for"
+                                        },
+                                        "price": {
+                                            "type": "integer",
+                                            "example": "99"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "example": "2021-12-11T09:25:53.000000Z"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "example": "2021-12-11T09:25:53.000000Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
-                    "401": {
-                        "description": "Unauthenticated"
-                    },
-                    "403": {
-                        "description": "Forbidden"
+                    "400": {
+                        "description": "invalid",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/products/{id}": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get Detail Products",
+                "operationId": "f913fa5fc328652556b2ea0a3886441f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "number",
+                                            "example": "1"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "bags"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "this bag for"
+                                        },
+                                        "price": {
+                                            "type": "integer",
+                                            "example": "99"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "example": "2021-12-11T09:25:53.000000Z"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "example": "2021-12-11T09:25:53.000000Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Update Products",
+                "operationId": "9c295b0312dee0a4bf887833f8420dca",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "": {
+                                        "properties": {
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            },
+                                            "price": {
+                                                "type": "integer"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "name": "bag",
+                                    "description": "for bag",
+                                    "price": "99"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "number",
+                                            "example": "1"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "bags"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "this bag for"
+                                        },
+                                        "price": {
+                                            "type": "integer",
+                                            "example": "99"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "example": "2021-12-11T09:25:53.000000Z"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "example": "2021-12-11T09:25:53.000000Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Delete Products",
+                "operationId": "755d2a11b6f2cf1b06003ae3c76a830c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "delete product success"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
