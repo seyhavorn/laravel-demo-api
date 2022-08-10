@@ -19,12 +19,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-	return $request->user();
+    return $request->user();
 });
 
-Route::resource('posts', PostApiController::class);
-Route::resource('teachers', TeacherApiController::class);
-Route::resource('students', StudentApiController::class);
-Route::resource('products', ProductApiController::class);
 
+Route::group(['prefix' => 'v1'], function () {
+    Route::apiResource('posts', PostApiController::class);
+    Route::apiResource('teachers', TeacherApiController::class);
+    Route::apiResource('students', StudentApiController::class);
+    Route::apiResource('products', ProductApiController::class);
+});
 

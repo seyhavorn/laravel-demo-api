@@ -11,8 +11,8 @@ class ProductApiController extends Controller
 	/**
 	 * Display a listing of the resource.
 	 *
-	 * @return \Illuminate\Http\Response
-	 */
+	 * @return \Illuminate\Http\JsonResponse
+     */
 	public function index()
 	{
 		$product = Product::all();
@@ -33,8 +33,8 @@ class ProductApiController extends Controller
 	 * Store a newly created resource in storage.
 	 *
 	 * @param \Illuminate\Http\Request $request
-	 * @return \Illuminate\Http\Response
-	 */
+	 * @return \Illuminate\Http\JsonResponse
+     */
 	public function store(Request $request)
 	{
 		$product = Product::create($request->all());
@@ -45,8 +45,8 @@ class ProductApiController extends Controller
 	 * Display the specified resource.
 	 *
 	 * @param int $id
-	 * @return \Illuminate\Http\Response
-	 */
+	 * @return \LaravelIdea\Helper\App\Models\_IH_Product_C|Product|Product[]
+     */
 	public function show($id)
 	{
 		$product = Product::find($id);
@@ -69,12 +69,13 @@ class ProductApiController extends Controller
 	 *
 	 * @param \Illuminate\Http\Request $request
 	 * @param int                      $id
-	 * @return \Illuminate\Http\Response
-	 */
+	 * @return array
+     */
 	public function update(Request $request, $id)
 	{
 		$product = Product::find($id);
 		$success = $product->update($request->all());
+
 		return [
 			'success' => $success,
 			'data'    => $product,
@@ -87,8 +88,8 @@ class ProductApiController extends Controller
 	 * Remove the specified resource from storage.
 	 *
 	 * @param int $id
-	 * @return \Illuminate\Http\Response
-	 */
+	 * @return array
+     */
 	public function destroy($id)
 	{
 		$success = Product::destroy($id);
