@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Models\Student;
+use Illuminate\Console\Scheduling\ScheduleRunCommand;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use function PHPUnit\Framework\returnArgument;
 
-
-class StudentController extends Controller
+class StudentApiController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,14 +16,9 @@ class StudentController extends Controller
      */
     public function index(Request $request)
     {
-        $myString = "The quick brow for jumps over the lazy dog. This dog from PP.";
-        $lowercase = Str::upper($myString);
-        $truncated = Str::limit($lowercase, 25);
-
-//        dd($truncated);
 
         $student = Student::all();
-        return view('students.index', compact('student', 'truncated'));
+        return response()->json($student);
     }
 
     /**
@@ -53,15 +47,14 @@ class StudentController extends Controller
             'subject' => 'required',
         ]);
 
-        $success = Student::create([
-            'name'    => $request['name'],
-            'email'   => $request['email'],
-            'age'     => $request['age'],
-            'subject' => $request['subject'],
-        ]);
-
+//        $success = Student::create([
+//            'name' => $request['name'],
+//            'email' => $request['email'],
+//            'age' => $request['age'],
+//            'subject' => $request['subject'],
+//        ]);
+        $success = Student::create($request->all());
         return ['$success' => $success];
-//        return redirect('/')->with('message', 'Student has been save');
 
     }
 
@@ -82,22 +75,8 @@ class StudentController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-
     public function edit(Student $student)
     {
-        request()->validate([
-            'name'    => 'required',
-            'email'   => 'required',
-            'age'     => 'required',
-            'subject' => 'required',
-        ]);
-
-        $success = $student->update([
-            'title'   => request('title'),
-            'content' => request('content'),
-        ]);
-
-        return ['success' => $success];
 
 
     }
@@ -106,12 +85,28 @@ class StudentController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param int                      $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        //
+        request()->validate([
+            'name'    => 'required',
+            'email'   => 'required',
+            'age'     => 'required',
+            'subject' => 'required',
+        ]);
+
+//        $success = $student->update([
+//            'name'    => request('name'),
+//            'email'   => request('email'),
+//            'age'     => request('age'),
+//            'subject' => request('subject'),
+//        ]);
+
+        $student = Student::find($id);
+        $success = $student->update($request->all());
+        return ['success' => $success];
     }
 
     /**
@@ -126,6 +121,7 @@ class StudentController extends Controller
 
         return [
             'success' => $success,
+            'message' => 'Student has been deleted',
         ];
     }
 }
