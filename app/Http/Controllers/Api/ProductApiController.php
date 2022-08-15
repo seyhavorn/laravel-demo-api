@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CreateProductRequest;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ProductApiController extends Controller
@@ -16,11 +18,6 @@ class ProductApiController extends Controller
         $this->product = $product;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
     /**
      * Get List Products
      * @OA\Get (
@@ -47,22 +44,11 @@ class ProductApiController extends Controller
         return response()->json(["Data" => $product]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create(Request $request)
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
 
     /**
      * Create Products
@@ -109,10 +95,15 @@ class ProductApiController extends Controller
      * )
      */
 
-    public function store(Request $request)
+    public function store(CreateProductRequest $productRequest): JsonResponse
     {
-        $product = $this->product->createProduct($request->all());
-        return response()->json($product);
+        $productRequest->validated();
+        try {
+            $product = Product::create($productRequest->all());
+            return response()->json($product);
+        } catch (ModelNotFoundException $exception) {
+            return response()->json(['message' => $exception->getMessage()], 404);
+        }
     }
 
     /**
@@ -154,7 +145,7 @@ class ProductApiController extends Controller
         if ($product !== null) {
             return response()->json($product);
         }
-        return response()->json(["message" => "Products ".$id." item not found"], 404);
+        return response()->json(["message" => "Products " . $id . " item not found"], 404);
     }
 
     /**
@@ -220,10 +211,11 @@ class ProductApiController extends Controller
      * )
      */
 
-    public function update(Request $request, $id)
+    public function update(CreateProductRequest $createProductRequest, $id)
     {
+        $createProductRequest->validated();
         try {
-            $product = $this->product->updateProduct($id, $request->all());
+            $product = $this->product->updateProduct($id, $createProductRequest->all());
             return response()->json($product);
         } catch (ModelNotFoundException $exception) {
             return response()->json(["Message" => $exception->getMessage()], 404);
@@ -262,9 +254,14 @@ class ProductApiController extends Controller
     {
         try {
             $product = $this->product->deleteProduct($id);
-            return response()->json(["message" => "Product ".$id." has been deleted"]);
+            return response()->json(["message" => "Product " . $id . " has been deleted"]);
         } catch (ModelNotFoundException $exception) {
             return response()->json(["message" => $exception->getMessage()], 404);
         }
+    }
+
+    public function search($name)
+    {
+        return Product::where('name', 'like', '%' . $name . '%')->get();
     }
 }

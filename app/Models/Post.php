@@ -61,12 +61,6 @@ class Post extends Model
         if ($post == null) {
             throw new ModelNotFoundException("Post " . $id . " is not fund!");
         }
-
-        $post->title = $attributes["title"];
-        $post->slug = $attributes["slug"];
-        $post->like = $attributes["like"];
-        $post->content = $attributes["content"];
-        $post->save();
         return $post;
     }
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PostApiController;
 use App\Http\Controllers\Api\ProductApiController;
 use App\Http\Controllers\Api\StudentApiController;
@@ -22,10 +23,19 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['prefix' => 'v1'], function () {
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+
+//Protected Route:
+Route::group([
+    'prefix'     => 'v1',
+    'middleware' => 'auth:sanctum'
+], function () {
     Route::apiResource('posts', PostApiController::class);
     Route::apiResource('teachers', TeacherApiController::class);
     Route::apiResource('students', StudentApiController::class);
     Route::apiResource('products', ProductApiController::class);
+    Route::get('products/search/{name}', [ProductApiController::class, 'search']);
+    Route::post('/logout', [AuthController::class, 'logout']);
 });
 
