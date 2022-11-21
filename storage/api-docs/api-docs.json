@@ -4,55 +4,89 @@
         "title": "Laravel Master api Documentation",
         "version": "1.0.0"
     },
-    "servers": [
-        {
-            "url": "http://laravel-master.test",
-            "description": "Demo API Server"
-        }
-    ],
     "paths": {
         "/api/register": {
             "post": {
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Register",
-                "operationId": "register",
-                "parameters": [
-                    {
-                        "name": "name",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "email",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "password",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "password_confirmation",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
+                "summary": "Create Posts",
+                "operationId": "8e4e3cb7b46126f4696379d3c7eeb4ad",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "": {
+                                        "properties": {
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "email": {
+                                                "type": "string"
+                                            },
+                                            "password": {
+                                                "type": "string"
+                                            },
+                                            "password_confirmation": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "name": "jok Min",
+                                    "email": "jok@gmail.com",
+                                    "password": "11112222",
+                                    "password_confirmation": "11112222"
+                                }
+                            }
                         }
                     }
-                ],
+                },
                 "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "number",
+                                            "example": "1"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "jok Min"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "jok@gmail.com"
+                                        },
+                                        "password": {
+                                            "type": "integer",
+                                            "example": "11112222"
+                                        },
+                                        "password_confirmation": {
+                                            "type": "string",
+                                            "example": "11112222"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "example": "2021-12-11T09:25:53.000000Z"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "example": "2021-12-11T09:25:53.000000Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
                     "201": {
                         "description": "Success",
                         "content": {
@@ -99,6 +133,16 @@
                         }
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#app/Http/Requests"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "Success",
@@ -169,6 +213,9 @@
                             }
                         }
                     }
+                },
+                "security": {
+                    "apiAuth": {}
                 }
             },
             "post": {
@@ -202,7 +249,7 @@
                                 },
                                 "type": "object",
                                 "example": {
-                                    "title": " ",
+                                    "title": "",
                                     "slug": "",
                                     "like": "",
                                     "content": ""
@@ -778,10 +825,19 @@
     },
     "components": {
         "securitySchemes": {
-            "sanctum": {
+            "bearer_token": {
                 "type": "apiKey",
                 "description": "Enter token in format (Bearer <token>)",
                 "name": "Authorization",
+                "in": "header"
+            }
+        }
+    },
+    "security": [
+        {
+            "passport": {
+                "type": "oauth2",
+                "description": "Laravel passport oauth2 security.",
                 "in": "header",
                 "scheme": "https",
                 "flows": {
@@ -794,21 +850,5 @@
                 }
             }
         }
-    },
-    "security": {
-        "passport": {
-            "type": "oauth2",
-            "description": "Laravel passport oauth2 security.",
-            "in": "header",
-            "scheme": "https",
-            "flows": {
-                "password": {
-                    "authorizationUrl": "http://laravel-master.test//oauth/authorize",
-                    "tokenUrl": "http://laravel-master.test//oauth/token",
-                    "refreshUrl": "http://laravel-master.test//token/refresh",
-                    "scopes": []
-                }
-            }
-        }
-    }
+    ]
 }

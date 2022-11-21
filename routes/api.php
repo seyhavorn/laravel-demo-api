@@ -29,7 +29,7 @@ Route::post('/login', [AuthController::class, 'login']);
 //Protected Route:
 Route::group([
     'prefix'     => 'v1',
-    'middleware' => 'auth:sanctum'
+//    'middleware' => 'auth:sanctum'
 ], function () {
     Route::apiResource('posts', PostApiController::class);
     Route::apiResource('teachers', TeacherApiController::class);

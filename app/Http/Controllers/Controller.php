@@ -12,10 +12,6 @@ use Illuminate\Routing\Controller as BaseController;
  *      version="1.0.0",
  *      title="Laravel Master api Documentation",
  *     )
- * @OA\Server(
- *      url=L5_SWAGGER_CONST_HOST,
- *      description="Demo API Server"
- * )
  */
 class Controller extends BaseController
 {

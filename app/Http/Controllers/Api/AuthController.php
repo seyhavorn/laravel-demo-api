@@ -11,49 +11,43 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
     /**
-     * @OA\Post(
-     * path="/api/register",
-     *   tags={"Auth"},
-     *   summary="Register",
-     *   operationId="register",
-     *     @OA\Schema(
-     *      securitySchemes="Bearer",
-     *      type= "apiKey",
-     *      name="Authorization",
-     *      in="header",
-     *   ),
-     *  @OA\Parameter(
-     *      name="name",
-     *      in="query",
-     *      required=true,
-     *      @OA\Schema(
-     *           type="string"
-     *      )
-     *   ),
-     *  @OA\Parameter(
-     *      name="email",
-     *      in="query",
-     *      required=true,
-     *      @OA\Schema(
-     *           type="string"
-     *      )
-     *   ),
-     *   @OA\Parameter(
-     *      name="password",
-     *      in="query",
-     *      required=true,
-     *      @OA\Schema(
-     *           type="string"
-     *      )
-     *   ),
-     *      @OA\Parameter(
-     *      name="password_confirmation",
-     *      in="query",
-     *      required=true,
-     *      @OA\Schema(
-     *           type="string"
-     *      )
-     *   ),
+     * Create Posts
+     * @OA\Post (
+     *     path="/api/register",
+     *     tags={"Auth"},
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                      type="object",
+     *                      @OA\Property(property="name", type="string"),
+     *                      @OA\Property(property="email", type="string"),
+     *                      @OA\Property(property="password",type="string"),
+     *                      @OA\Property(property="password_confirmation",type="string")
+     *                 ),
+     *                 example={
+     *                     "name":"jok Min",
+     *                     "email": "jok@gmail.com",
+     *                     "password": "11112222",
+     *                     "password_confirmation":"11112222"
+     *                }
+     *             )
+     *         )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="success",
+     *          @OA\JsonContent(
+     *               @OA\Property(property="id", type="number",example="1"),
+     *               @OA\Property(property="name", type="string", example="jok Min"),
+     *               @OA\Property(property="email", type="string", example="jok@gmail.com",),
+     *               @OA\Property(property="password", type="int", example="11112222", ),
+     *               @OA\Property(property="password_confirmation", type="string", example="11112222"),
+     *               @OA\Property(property="updated_at", type="string", example="2021-12-11T09:25:53.000000Z"),
+     *               @OA\Property( property="created_at", type="string", example="2021-12-11T09:25:53.000000Z")
+     *          ),
+     *      ),
      *   @OA\Response(
      *      response=201,
      *       description="Success",
@@ -78,7 +72,7 @@ class AuthController extends Controller
      *          description="Forbidden"
      *    ),
      *  )
-     **/
+     */
 
     public function register(Request $request)
     {
@@ -110,6 +104,11 @@ class AuthController extends Controller
      *   tags={"Auth"},
      *   summary="Login",
      *   operationId="login",
+     *
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(ref="#app/Http/Requests")
+     *      ),
      *
      *   @OA\Parameter(
      *      name="email",
